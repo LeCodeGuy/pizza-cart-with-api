@@ -1,0 +1,57 @@
+.pizza {
+    border:1px solid;
+    margin-bottom: 1em;
+    padding: 1em;
+}
+
+.btn {
+    background-color: rgb(233,196,106);
+    font-weight: bold;
+    border: 2px solid rgb(233,196,106);
+    margin: 1em auto;
+    width: 15%;
+    display: block;
+    cursor: pointer;
+    padding: 1em 0em;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    border: 2px solid black;    
+}
+
+.btnRound {
+    /* background-color: rgb(233,196,106);
+    font-weight: bold;
+    border: 2px solid rgb(233,196,106);
+    display: block;
+    cursor: pointer;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 50%; */
+    background-color: rgb(233,196,106);
+  /* color: white; */
+  border: none;
+  /* border:2px solid rgb(233,196,106); */
+  /* padding: 5px; */
+  /* font-size: 20px; */
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cartRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.cartCol {
+    width:5%;
+}
+
+.message {
+  font-size:x-large;   
+}

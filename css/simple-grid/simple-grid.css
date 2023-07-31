@@ -1,0 +1,238 @@
+/**
+*** SIMPLE GRID
+*** (C) ZACH COLE 2016
+**/
+
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+
+/* UNIVERSAL */
+body {
+  background-color: rgb(233,196,106);
+  font-family: 'Italiana', serif !important;
+  font-size: larger !important;
+}
+
+.box {
+  /* box-model */
+  border-radius: 10px 10px 30px 10px;
+  padding: 1em;
+  margin: 0.5em;
+  font-weight: bold;
+}
+
+.small {
+  background-color: rgb(42,157,143);
+}
+
+.small img {
+  width: 100px;
+}
+
+.medium {
+  background-color: rgb(244,162,97);
+}
+
+.medium img {
+  width: 125px;
+}
+
+.large {
+  background-color: rgb(231,111,81);
+}
+
+.large img {
+  width: 150px;
+}
+.contact-us {
+  display: block;
+  background-color: rgb(84, 150, 177);
+  border-radius: 10px 10px 30px 10px;
+  padding: 1em;
+  margin: 0.5em;
+  font-weight: bold;
+}
+
+.socials{
+  display:inline-flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 70%;
+}
+
+.address {
+  display:inline-flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 30%;
+  float: right;
+}
+
+@media (min-width:400px) and (max-width:959px){
+  /* .box {
+      width:auto;
+  } */
+
+  .cartCol{
+    width: 30% !important;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btnRound {
+   margin: 0 5%;
+  }
+
+  .btn {
+    width:25% !important;
+  }
+}
+
+@media (min-width:960px){
+  
+  
+}
+/* TYPOGRAPHY */
+h1 {
+  margin:0.5em;
+}
+
+/* POSITIONING */
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.justify {
+  text-align: justify;
+}
+
+/* ==== GRID SYSTEM ==== */
+
+.container {
+  width: 100%;
+}
+
+.row {
+  display: block;
+}
+
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  width: auto;
+}
+
+.row::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+@media only screen and (min-width: 33.75em) {  /* 540px */
+  .row {
+    display:block;
+  }
+}
+
+@media only screen and (min-width: 45em) {  /* 720px */
+  .col-1 {
+    width: 4.33%;
+  }
+
+  .col-2 {
+    width: 12.66%;
+  }
+
+  .col-3 {
+    width: 21%;
+  }
+
+  .col-4 {
+    width: 30.33%;
+  }
+
+  .col-5 {
+    width: 37.66%;
+  }
+
+  .col-6 {
+    width: 46%;
+  }
+
+  .col-7 {
+    width: 54.33%;
+  }
+
+  .col-8 {
+    width: 62.66%;
+  }
+
+  .col-9 {
+    width: 71%;
+  }
+
+  .col-10 {
+    width: 79.33%;
+  }
+
+  .col-11 {
+    width: 87.66%;
+  }
+
+  .col-12 {
+    width: 96%;
+  }
+
+  .row {
+    display:flex;
+  }
+
+  .btn {
+    width:25% !important;
+  }
+
+}
+
+@media only screen and (min-width: 60em) { /* 960px */
+  .pizzas {
+    display: flex;
+  }
+  
+  .row {
+    display:flex;
+  }
+
+  .cartCol{
+    width: 10% !important;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btnRound {
+    margin: 0 5%;
+  }
+
+  .btn {
+    width:10% !important;
+  }
+}
