@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+<body x-data="{
+    title:'Pizza Cart API',
+    pizzas:[]
+}" x-init="axios
+            .get('https://pizza-api.projectcodex.net/api/pizzas')
+            .then(result=>{
+                //console.log(result.data);
+                pizzas = result.data.pizzas
+            })">
+    <h1 x-text="title"></h1>
+    <template x-for="pizza in pizzas">
+        <div>
+            <h5 x-text="pizza.flavour"></h5>
+        </div>
+    </template>
+</body>
+</html>
