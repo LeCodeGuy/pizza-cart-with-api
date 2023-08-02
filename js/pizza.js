@@ -1,122 +1,143 @@
 document.addEventListener("alpine:init",()=>{
-    //Alpine.data('cart', myCart);
+
     Alpine.data('pizzaCart', ()=>{
         return{
             title:'Pizza Cart API',
             pizzas:[],
-            username:'LeCodeGuy',
-            cartId: 'LeCodeGuyPizzas',
+            username:'',//'LeCodeGuy',
+            cartId: '',//'LeCodeGuyPizzas',
             cartPizzas:[],
             cartTotal: 0.00,
-            smallCount: 0,
-            mediumCount: 0,
-            largeCount: 0,
-            total: 0,
-            payAmount:0,
-            showOrderBtn: true,
-            showCart: false,
-            checkout: false,
-            pay: false,
-            message: "",
-            increaseSmall(){
-                this.smallCount+=59.00;
-                this.updateTotal();
-            },
-            decreaseSmall(){
-                if(this.smallCount > 0) {
-                    this.smallCount-=59.00;
-                    this.updateTotal();
+            paymentAmount: 0,
+            message: '',
+            login(){
+                if(this.username.length > 2){
+                    localStorage['username'] = this.username;
+                    this.createCart();
+                }else{
+                    alert("Username is too short!");
                 }
             },
-            increaseMedium(){
-                this.mediumCount+=99.00;
-                this.updateTotal();
+            logout(){
+                if(confirm('Do you want to  logout?')){
+                    this.username = '';
+                    this.cartId = '';
+                    localStorage.clear();
+                }                
             },
-            decreaseMedium(){
-                if(this.mediumCount > 0) {
-                    this.mediumCount-=99.00;
-                    this.updateTotal();
+            createCart(){
+                if(!this.username){
+                    this.cartId = "No username to create a cart for"
+                    return;
                 }
-            },
-            increaseLarge(){
-                this.largeCount+=149.00;
-                this.updateTotal();
-            },
-            decreaseLarge(){
-                if(this.largeCount > 0) {
-                    this.largeCount-=149.00;
-                    this.updateTotal();
-                }
-            },
-            updateTotal(){
-                this.total = this.smallCount+this.mediumCount+this.largeCount;
-                
-                // If cart is hidden then hide checkout and pay buttons
-                // this is to cater for scena
-                if(this.showCart == false){
-                    this.checkout = false;
-                    this.showOrderBtn = true;
-                    this.pay = false;
-                }
-                // if the total is 0 hide the cart and the checkout button
-                if(this.total == 0){
-                    this.showCart = false;
-                    this.checkout = false;
-                }
-                // else show the cart and checkout button
-                else{
-                    this.showCart = true;
-                    this.checkout = true;
-                }
-            },
-            checkout_onClick(){
-                this.checkout = false;
-                this.showOrderBtn = false;
-                this.pay = true;
-            },
-            pay_onClick(){
-                if(Number(this.payAmount).toFixed(2) >= Number(this.total).toFixed(2)){
-                    this.message = "🤤 Enjoy your pizza!";
-                    this.smallCount = 0;
-                    this.mediumCount = 0;
-                    this.largeCount = 0;
-                    this.payAmount = 0;
-                    this.total = 0;
-                    this.checkout = false;
-                    this.pay = false;
+                const createCartURL = 'https://pizza-api.projectcodex.net/api/pizza-cart/create?username='+this.username;
+                const cartId = localStorage['cartId'];
 
-                    setTimeout(()=>{                    
-                        this.showCart = false;                    
-                        this.message = "";
-                    }
-                    ,3000);
-                }
-                else{
-                    this.message = "😳 Oops! - That is not enough money.";
-
-                    setTimeout(()=>{                    
-                        this.message = "";
-                    }
-                    ,3000);
-                }
+                if(cartId){ //if a value exists for cartId in localStorage
+                    // set cartId to localStorage cartId
+                    this.cartId = cartId;
+                }else{
+                    //create a new cart
+                    return axios
+                            .get(createCartURL)
+                            .then(result => {
+                                this.cartId = result.data.cart_code;    // set cartId to the newly created cartId
+                                localStorage['cartId'] = this.cartId;   // set localStorage cartId to the current cartId
+                            });
+                }                
             },
             getCart(){
-                const getCartURL = 'https://pizza-api.projectcodex.net/api/pizza-cart/${this.cartId}/get'
+                const getCartURL = 'https://pizza-api.projectcodex.net/api/pizza-cart/'+this.cartId+'/get'
                 return axios.get(getCartURL);
             },
+            addPizza(pizzaId) {
+                return axios.post('https://pizza-api.projectcodex.net/api/pizza-cart/add', {
+                    "cart_code": this.cartId,
+                    "pizza_id": pizzaId
+                })                
+            },
+            removePizza(pizzaId) {
+                return axios.post('https://pizza-api.projectcodex.net/api/pizza-cart/remove',{
+                    "cart_code": this.cartId,
+                    "pizza_id":pizzaId
+                })
+            },
+            pay(amount) {
+                return axios.post('https://pizza-api.projectcodex.net/api/pizza-cart/pay',{                
+                    "cart_code" : this.cartId,
+                    "amount" : amount
+                })
+            },
+
+            showCartData() {
+                this.getCart().then(result => {
+                    const cartData = result.data;
+                    this.cartPizzas = cartData.pizzas;
+                    this.cartTotal = cartData.total.toFixed(2);
+                });
+            },
+
             init(){
                 axios 
                     .get('https://pizza-api.projectcodex.net/api/pizzas')
                     .then(result=>{
-                        //console.log(result.data);
+                        // code here
+                        // console.log(result.data);
                         this.pizzas = result.data.pizzas
+                        // code here...
+                    });
+                if(localStorage["username"] && localStorage["cartId"]){
+                    this.username = localStorage["username"];
+                    this.cartId = localStorage["cartId"];
+                    
+                    this.createCart()
+                        // .then(()=>{
+                        //     this.showCartData();
+                        // })
+
+                        this.showCartData();
+                }
+                
+
+            },
+            addPizzaToCart(pizzaId) {
+                //alert(pizzaId);
+                this
+                    .addPizza(pizzaId)
+                    .then(() => {
+                        this.showCartData()
                     })
-                this.getCart().then(result =>{
-                    const cartData = result.data;
-                     
-                    this.cartPizzas = cartData.pizzas;
-                    this.cartTotal = cartData.total;
-                });
+            },
+            removePizzaFromCart(pizzaId){
+                this
+                    .removePizza(pizzaId)
+                    .then(() => {
+                        this.showCartData()
+                    })
+            },
+            payForCart(){
+                this
+                    .pay(this.paymentAmount)
+                    .then(result => {
+                        if(result.data.status == 'failure'){
+                            this.message = '😳 Oops! - That is not enough money.';
+                            setTimeout(() => {
+                                this.message = '';
+                            }, 3000);
+                        }
+                        else{
+                            this.message = '🤤 Enjoy your pizza!';
+                            setTimeout(() => {
+                                this.message = '';
+                                this.cartPizzas = [];
+                                this.cartTotal = 0.00;
+                                this.cartId = '';
+                                this.paymentAmount = '';
+                                localStorage.clear();
+                                this.createCart();
+                            }, 3000);
+                        }
+                    })
             }
         }
     });

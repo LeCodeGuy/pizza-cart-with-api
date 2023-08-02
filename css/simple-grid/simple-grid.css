@@ -3,14 +3,9 @@
 *** (C) ZACH COLE 2016
 **/
 
-@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
 
-/* UNIVERSAL */
-body {
-  background-color: rgb(233,196,106);
-  font-family: 'Italiana', serif !important;
-  font-size: larger !important;
-}
+
+
 
 .box {
   /* box-model */
@@ -43,29 +38,9 @@ body {
 .large img {
   width: 150px;
 }
-.contact-us {
-  display: block;
-  background-color: rgb(84, 150, 177);
-  border-radius: 10px 10px 30px 10px;
-  padding: 1em;
-  margin: 0.5em;
-  font-weight: bold;
-}
 
-.socials{
-  display:inline-flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  width: 70%;
-}
 
-.address {
-  display:inline-flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  width: 30%;
-  float: right;
-}
+
 
 @media (min-width:400px) and (max-width:959px){
   /* .box {
@@ -119,9 +94,7 @@ h1 {
 
 /* ==== GRID SYSTEM ==== */
 
-.container {
-  width: 100%;
-}
+
 
 .row {
   display: block;
